@@ -1,6 +1,8 @@
 <!-- templates/partials/comment_form.html -->
 
-<form>
+<form action='/playlists/comments' method='POST'>
+     <!-- Add the hidden input -->
+     <input type='hidden' value='{{ playlist._id }}' name='playlist_id'/>
     <fieldset>
         <legend>Add a Comment</legend>
         <!-- TITLE -->
