@@ -14,7 +14,7 @@ import os
 # update the client, db, and playlists assignments to the following,
 # including the new host variable
 host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/Playlister')
-client = MongoClient(host=host)
+client = MongoClient(host=f'{host}?retryWrites=false')
 db = client.get_default_database()
 playlists = db.playlists
 
@@ -121,5 +121,8 @@ def playlists_delete(playlist_id):
     return redirect(url_for('playlists_index'))
 
 
+# app.py
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    # update the below line to the following:
+    app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
