@@ -7,9 +7,18 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 
-client = MongoClient()
-db = client.Playlister
+# app.py
+# Add the following import
+import os
+...
+# update the client, db, and playlists assignments to the following,
+# including the new host variable
+host = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/Playlister')
+client = MongoClient(host=host)
+db = client.get_default_database()
 playlists = db.playlists
+
+
 def video_url_creator(id_lst):
     videos = []
     for vid_id in id_lst:
@@ -17,7 +26,6 @@ def video_url_creator(id_lst):
         video = 'https://youtube.com/embed/' + vid_id
         videos.append(video)
     return videos
-
 
 
 app = Flask(__name__)
@@ -73,7 +81,7 @@ def playlists_edit(playlist_id):
 @app.route('/playlists/new')
 def playlists_new():
     """Create a new playlist."""
-    return render_template('playlists_new.html')
+    return render_template('playlists_new.html', playlist='', title="New Playlist")
 
 @app.route('/playlists/<playlist_id>')
 def playlists_show(playlist_id):
